@@ -181,7 +181,7 @@
                                     success: function (res) {
                                         // 支付成功后的回调函数
                                         alert('支付成功！');
-                                        setTimeout("location.href = '${contextPath!}/weixin/h5/queryCoursePlayer.do?id=${info.id!}&promoter_id=${promoter_id!}'", 1000);
+                                        setTimeout("location.href = '${contextPath!}/weixin/h5/queryCoursePlayer.do?id=${info.id!}'", 1000);
                                     },
                                     cancel: function (res) {
                                         // 支付取消

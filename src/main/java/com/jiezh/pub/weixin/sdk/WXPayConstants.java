@@ -11,8 +11,8 @@ public class WXPayConstants {
 
 
     // appid
-    //public static final String APP_ID = "wx7ee19649ab15e945";
-    public static  String APP_ID = "wx68d9985c78b0bdc8"; // 测试号
+    public static final String APP_ID = "wx7ee19649ab15e945";
+    //public static  String APP_ID = "wx68d9985c78b0bdc8"; // 测试号
 
     // 商户号
     public static final String MCH_ID = "1502656161";
