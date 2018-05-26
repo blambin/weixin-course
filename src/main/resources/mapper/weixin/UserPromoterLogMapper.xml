@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiezh.dao.weixin.UserPromoterLogMapper" >
+    <resultMap id="BaseResultMap" type="com.jiezh.entity.UserPromoterLog" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="promoter_id" property="promoterId" jdbcType="INTEGER" />
+        <result column="money" property="money" jdbcType="DOUBLE" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="upadte_time" property="upadteTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, type, user_id, promoter_id, money, create_time, upadte_time
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="_int" >
+        select 
+        <include refid="Base_Column_List" />
+        from t_user_promoter_log
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insert" parameterType="com.jiezh.entity.UserPromoterLog" >
+        <selectKey resultType="_int" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_user_promoter_log (type, user_id, promoter_id, 
+            money, create_time, upadte_time
+            )
+        values (#{type,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{promoterId,jdbcType=INTEGER}, 
+            #{money,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, #{upadteTime,jdbcType=TIMESTAMP}
+            )
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiezh.entity.UserPromoterLog" >
+        update t_user_promoter_log
+        <set >
+            <if test="type != null" >
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="promoterId != null" >
+                promoter_id = #{promoterId,jdbcType=INTEGER},
+            </if>
+            <if test="money != null" >
+                money = #{money,jdbcType=DOUBLE},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="upadteTime != null" >
+                upadte_time = #{upadteTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="_int" >
+        delete from t_user_promoter_log
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+
+    <select id="queryUserPromoterLog" resultMap="BaseResultMap" parameterType="com.jiezh.entity.UserPromoterLog">
+        select
+        <include refid="Base_Column_List" />
+        from t_user_promoter_log upl
+        <where>
+            <if test="promoterId != null" >
+                and upl.promoter_id = #{promoterId,jdbcType=INTEGER}
+            </if>
+        </where>
+        order by upl.id desc
+    </select>
+
+</mapper>

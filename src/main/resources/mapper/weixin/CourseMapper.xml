@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiezh.dao.weixin.CourseMapper" >
+    <resultMap id="BaseResultMap" type="com.jiezh.entity.Course" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+        <result column="price" property="price" jdbcType="DECIMAL" />
+        <result column="is_free" property="isFree" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="LONGVARCHAR" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" jdbcType="INTEGER" />
+        <result column="create_user" property="createUser" jdbcType="INTEGER" />
+        <result column="logo_url" property="logoUrl" jdbcType="VARCHAR" />
+        <result column="type_location" property="typeLocation" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, name, introduce, price, is_free, type, content, url,
+        create_time, update_time, update_user, create_user, logo_url, type_location
+    </sql>
+
+    <select id="queryCourseById" resultMap="BaseResultMap" parameterType="_int" >
+        select 
+        <include refid="Base_Column_List" />
+        from t_course
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insert" parameterType="com.jiezh.entity.Course" >
+        <selectKey resultType="_int" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_course (name, introduce, price, 
+            is_free, type, content, url,
+            create_time, update_time, update_user, create_user,
+            logo_url, type_location)
+        values (#{name,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+            #{isFree,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, 
+            #{url,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+            #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}, #{createUser,jdbcType=INTEGER},
+            #{logoUrl,jdbcType=VARCHAR}, #{typeLocation,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateEntity" parameterType="com.jiezh.entity.Course" >
+        update t_course
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="introduce != null" >
+                introduce = #{introduce,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null" >
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="isFree != null" >
+                is_free = #{isFree,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="url != null" >
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null" >
+                update_user = #{updateUser,jdbcType=INTEGER},
+            </if>
+            <if test="createUser != null" >
+                create_user = #{createUser,jdbcType=INTEGER},
+            </if>
+            <if test="logoUrl != null" >
+                logo_url = #{logoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="typeLocation != null" >
+                type_location = #{typeLocation,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="_int" >
+        delete from t_course
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 查询用户列表 -->
+    <select id="queryCourseList" resultMap="BaseResultMap" parameterType="com.jiezh.entity.Course">
+        select
+        <include refid="Base_Column_List" />
+        from t_course
+        <where>
+            <if test="name != null" >
+                and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="type != null" >
+                and type = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="isFree != null" >
+                and is_free = #{isFree,jdbcType=VARCHAR}
+            </if>
+            <if test="typeLocation != null" >
+                and type_location = #{typeLocation,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+
+    <select id="queryCoursePageByUserId" resultMap="BaseResultMap" parameterType="_int">
+        SELECT
+        c.*
+        FROM
+        t_course c
+        LEFT JOIN t_weixin_orders wo ON c.id = wo.course_id
+        WHERE
+        wo.user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,25 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+			 xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+	<!-- 过滤掉的资源 -->
+	<http pattern="/weixin/h5" security="none" />
+	<http pattern="/ueditor/**" security="none" />
+	<http pattern="/**/exchange/**"   security="none" />
+	<http pattern="/res/pub/**" security="none" />
+	<http pattern="/**/*.js*"   security="none" />
+	<http pattern="/**/*.css*"  security="none" />
+	<http pattern="/**/*.html*" security="none" />
+	<http pattern="/index.jsp"  security="none" />
+	<http pattern="/index.do"   security="none" />
+	<http pattern="/itfer/**" security="none" />
+
+	<!-- <debug /> -->
+
+
+</beans:beans>

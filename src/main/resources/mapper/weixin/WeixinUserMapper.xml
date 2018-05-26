@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiezh.dao.weixin.WeixinUserMapper" >
+    <resultMap id="BaseResultMap" type="com.jiezh.entity.WeixinUser" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="openid" property="openid" jdbcType="VARCHAR" />
+        <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="VARCHAR" />
+        <result column="province" property="province" jdbcType="VARCHAR" />
+        <result column="city" property="city" jdbcType="VARCHAR" />
+        <result column="country" property="country" jdbcType="VARCHAR" />
+        <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
+        <result column="privilege" property="privilege" jdbcType="VARCHAR" />
+        <result column="unionid" property="unionid" jdbcType="VARCHAR" />
+        <result column="promoter_id" property="promoterId" jdbcType="INTEGER" />
+        <result column="promoter_money" property="promoterMoney" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, openid, nickname, sex, province, city, country, headimgurl, privilege, unionid, promoter_id, promoter_money
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="_int" >
+        select 
+        <include refid="Base_Column_List" />
+        from t_weixin_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insert" keyProperty="id" parameterType="com.jiezh.entity.WeixinUser" >
+        <selectKey resultType="_int" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_weixin_user (openid, nickname, sex, 
+            province, city, country, 
+            headimgurl, privilege, unionid, promoter_id, promoter_money
+            )
+        values (#{openid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+            #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+            #{headimgurl,jdbcType=VARCHAR}, #{privilege,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR},
+            #{promoterId,jdbcType=INTEGER}, #{promoterMoney,jdbcType=DECIMAL}
+            )
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiezh.entity.WeixinUser" >
+        update t_weixin_user
+        <set >
+            <if test="openid != null" >
+                openid = #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null" >
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null" >
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null" >
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null" >
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="headimgurl != null" >
+                headimgurl = #{headimgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="privilege != null" >
+                privilege = #{privilege,jdbcType=VARCHAR},
+            </if>
+            <if test="unionid != null" >
+                unionid = #{unionid,jdbcType=VARCHAR},
+            </if>
+            <if test="promoterId != null" >
+                promoter_id = #{promoterId,jdbcType=INTEGER},
+            </if>
+            <if test="promoterMoney != null" >
+                promoter_money = #{promoterMoney,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="_int" >
+        delete from t_weixin_user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="selectByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from t_weixin_user
+        where openid = #{openid,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

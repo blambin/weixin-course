@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<#include "/weixin/include/taglibs.ftl"/>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>个人中心</title>
+  <link rel="stylesheet" type="text/css" href="${contextPath!}/res/weixin/js/user/ui.css">
+</head>
+<body style="">
+<script src="${contextPath!}/res/weixin/js/h5/weixin_util.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    // 用户授权登陆
+    var weixinUser = '${weixinUser}';
+    if (!weixinUser) {
+        getBaseInfo('toUserCourseHtml.do');
+    }
+
+</script>
+<script type="text/javascript">
+
+    // 用户授权登陆
+    getBaseInfo('${(weixinUser.id)}' ,'toUserHtml.do');
+
+</script>
+<div class="aui-container">
+  <div class="aui-page">
+    <div class="aui-page-my">
+      <div class="aui-my-info">
+        <div class="aui-my-info-back"></div>
+        <a href="javascript:;" class="">
+          <img src="${weixinUser.headimgurl!}" class="aui-my-avatar">
+        </a>
+      </div>
+      <div class="aui-l-content">
+        <div class="aui-menu-list aui-menu-list-clear">
+          <ul>
+            <li class="b-line">
+              <a href="">
+                <h3>昵称：${weixinUser.nickname!}</h3>
+              </a>
+            </li>
+            <li class="b-line">
+              <a href="">
+                <h3>性别：<#if weixinUser.sex == '1'>男<#else>女</#if></h3>
+              </a>
+            </li>
+            <li class="b-line">
+              <a href="">
+                <h3>国家：${weixinUser.country!}</h3>
+              </a>
+            </li>
+            <li class="b-line">
+              <a href="">
+                <h3>省份：${weixinUser.province!}</h3>
+              </a>
+            </li>
+            <li class="b-line">
+              <a href="">
+                <h3>城市：${weixinUser.city!}</h3>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
