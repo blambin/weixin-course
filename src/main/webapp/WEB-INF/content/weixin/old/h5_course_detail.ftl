@@ -170,7 +170,7 @@
                         if (data.result === 'success') {
 
                             // 免费的不需要支付
-                            /*if (data.object != null && data.object !== '') {
+                            if (data.object != null && data.object !== '') {
                                 wx.chooseWXPay({
                                     appId: data.object.appId,
                                     timestamp: data.object.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
@@ -194,11 +194,7 @@
                             } else {
                                 alert('购买成功！');
                                 setTimeout("location.href = '${contextPath!}/weixin/h5/queryCoursePlayer.do?id=${info.id!}'", 1000);
-                            }*/
-
-                            // 支付成功后的回调函数
-                            alert('支付成功！');
-                            setTimeout("location.href = '${contextPath!}/weixin/h5/queryCoursePlayer.do?id=${info.id!}'", 1000);
+                            }
 
                         } else {
                             alert('订单生成失败！');
