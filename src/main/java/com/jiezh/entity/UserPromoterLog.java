@@ -1,5 +1,7 @@
 package com.jiezh.entity;
 
+import com.jiezh.pub.web.GeneralBean;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -9,7 +11,7 @@ import java.util.Date;
  * @author 系统自动生成
  * @version 1.0 2018-05-24
  */
-public class UserPromoterLog {
+public class UserPromoterLog extends GeneralBean {
 
     private Integer id;
     /**

@@ -86,7 +86,6 @@
         </div>
 	</form>
 	
-    <div id="myData_1004" style="display: none;"><@queryselect type="1" codeType="1004"/></div>
 	<!-- 页尾 -- start -->
 	<#include "/pub/footer_res_detail.ftl"/>
 	<!-- 页尾 -- start -->

@@ -48,9 +48,14 @@ public class Env {
     public static final String WEIXIN_COURSE_IS_FREE_2 = "2";
 
     /**
-     * 默认拉新奖励金额
+     * 默认拉新奖励金额 - 佣金比例
      */
-    public static final String WEIXIN_PROMOTERMONEY = "1";
+    public static final String WEIXIN_COMMISSION_PROPORTION = "commission_proportion";
+
+    /**
+     * 默认提现限制金额
+     */
+    public static final String WEIXIN_DEFAULT_PRICE = "default_price";
 
     public static void main(String[] args) {
 

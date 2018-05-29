@@ -11,26 +11,26 @@
             <div class="panel panel-default" style="margin-top: 1px;">
                 <div class="panel-heading">新增课程</div>
                 <div class="panel-body" style="width:100%">
-                    <div class="form-group ziding-ibox-modal">
-                        <label class="col-sm-2 control-label model_left_z"><label style="color:red;">*</label>课程名称:</label>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label "><label style="color:red;">*</label>课程名称:</label>
                         <div class="col-sm-4 ">
                             <input type="text" id="name" name="name" value="${(findObj.name)!''}" class="form-control" required='required' >
                         </div>
                     </div>
-                    <div class="form-group ziding-ibox-modal">
-                        <label class="col-sm-2 control-label model_left_z"><label style="color:red;">*</label>课程简介:</label>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label "><label style="color:red;">*</label>课程简介:</label>
                         <div class="col-sm-4 ">
                             <textarea rows="4" cols="70" name="introduce" id="introduce" required='required' />${(findObj.introduce)!''}</textarea>
                         </div>
                     </div>
-                    <div class="form-group ziding-ibox-modal">
-                        <label class="col-sm-2 control-label model_left_z"><label style="color:red;">*</label>课程价格:</label>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label "><label style="color:red;">*</label>课程价格:</label>
                         <div class="col-sm-4 ">
                             <input type="number" min="0.01" step="0.01" class='form-control' name="price" value="${(findObj.price)!}" required='required' />
                         </div>
                     </div>
-                    <div class="form-group ziding-ibox-modal">
-                        <label class="col-sm-2 control-label model_left_z"><label style="color:red;">*</label>是否免费:</label>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label "><label style="color:red;">*</label>是否免费:</label>
                         <div class="col-sm-4 ">
                             <input type="hidden" id="isFreeHidden" value="${(findObj.isFree)!''}">
                             <select class='form-control' id="isFree" name="isFree" >
@@ -39,8 +39,8 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group ziding-ibox-modal">
-                        <label class="col-sm-2 control-label model_left_z"><label style="color:red;">*</label>图片类型位置:</label>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label "><label style="color:red;">*</label>图片类型位置:</label>
                         <div class="col-sm-4 ">
                             <input type="hidden" id="typeLocationHidden" value="${(findObj.typeLocation)!''}">
                             <select class='form-control' id="typeLocation" name="typeLocation" >
@@ -50,8 +50,8 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group ziding-ibox-modal" id="logoUrlDiv">
-                        <label class="col-sm-2 control-label model_left_z"><label style="color:red;">*</label>logo图片:</label>
+                    <div class="form-group " id="logoUrlDiv">
+                        <label class="col-sm-2 control-label "><label style="color:red;">*</label>logo图片:</label>
                         <div class="col-sm-4 ">
                             <#if findObj.logoUrl??>
                             <a id="imgDown" href="${access_root_path}${(findObj.logoUrl)!''}" download="" class="download-btn" ><img src="${contextPath}/res/pub/css/plugins/imageview/xiazai.png" ></a>
@@ -60,8 +60,8 @@
                             <label style="color:red;">（推荐宽*100px,高*80px）</label>
                         </div>
                     </div>
-                    <div class="form-group ziding-ibox-modal">
-                        <label class="col-sm-2 control-label model_left_z"><label style="color:red;">*</label>课程类型:</label>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label "><label style="color:red;">*</label>课程类型:</label>
                         <div class="col-sm-4 ">
                             <input type="hidden" id="typeHidden" value="${(findObj.type)!''}">
                             <select class='form-control' id="type" name="type" onchange="changeCourseType(this);">
@@ -71,8 +71,8 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group ziding-ibox-modal" id="urlDiv">
-                        <label class="col-sm-2 control-label model_left_z"><label style="color:red;">*</label>文件上传:</label>
+                    <div class="form-group " id="urlDiv">
+                        <label class="col-sm-2 control-label "><label style="color:red;">*</label>文件上传:</label>
                         <div class="col-sm-4 ">
                             <#if findObj.url??>
                             <a id="imgDown" href="${access_root_path}${(findObj.url)!''}" download="" class="download-btn" ><img src="${contextPath}/res/pub/css/plugins/imageview/xiazai.png" ></a>
@@ -81,8 +81,8 @@
                             <label style="color:red;">（上传文件请不要超过50M）</label>
                         </div>
                     </div>
-                    <div class="form-group ziding-ibox-modal" id="contentDiv" style="display: none;">
-                        <label class="col-sm-2 control-label model_left_z"><label style="color:red;">*</label>文章:</label>
+                    <div class="form-group " id="contentDiv" style="display: none;">
+                        <label class="col-sm-2 control-label "><label style="color:red;">*</label>文章:</label>
                         <div class="col-sm-12">
 
                             <!-- 加载编辑器的容器 -->

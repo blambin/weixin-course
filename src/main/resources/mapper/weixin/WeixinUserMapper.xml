@@ -14,6 +14,8 @@
         <result column="unionid" property="unionid" jdbcType="VARCHAR" />
         <result column="promoter_id" property="promoterId" jdbcType="INTEGER" />
         <result column="promoter_money" property="promoterMoney" jdbcType="DECIMAL" />
+        <result column="promoter_name" property="promoterName" jdbcType="VARCHAR" />
+        <result column="sex_name" property="sexName" jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="Base_Column_List" >
@@ -92,6 +94,23 @@
         <include refid="Base_Column_List" />
         from t_weixin_user
         where openid = #{openid,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryWeixinUserList" resultMap="BaseResultMap" parameterType="com.jiezh.entity.WeixinUser">
+        select
+        wup.nickname as promoter_name,
+        if(wu.sex=1,'男','女') as sex_name,
+        wu.*
+        from t_weixin_user wu
+        left join t_weixin_user wup on wu.promoter_id = wup.id
+        <where>
+            <if test="nickname != null" >
+                and wu.nickname like concat('%',#{nickname,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="promoterName != null" >
+                and wup.nickname like concat('%',#{promoterName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
     </select>
 
 </mapper>

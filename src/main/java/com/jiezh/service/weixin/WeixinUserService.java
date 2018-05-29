@@ -1,5 +1,8 @@
 package com.jiezh.service.weixin;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.jiezh.dao.weixin.WeixinUserMapper;
 import com.jiezh.entity.WeixinUser;
 import com.vdurmont.emoji.EmojiParser;
@@ -49,5 +52,16 @@ public class WeixinUserService {
 
     public WeixinUser queryWeixinUserById(int userId) {
         return weixinUserMapper.selectByPrimaryKey(userId);
+    }
+
+    public PageInfo<WeixinUser> queryWeixinUserPage(int pageNum, int pageSize, WeixinUser weixinUser) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<WeixinUser> page = weixinUserMapper.queryWeixinUserList(weixinUser);
+
+        if (page == null) {
+            page = new Page<>();
+        }
+        return new PageInfo<>(page);
+
     }
 }

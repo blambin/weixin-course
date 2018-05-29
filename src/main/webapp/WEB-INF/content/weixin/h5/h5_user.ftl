@@ -20,6 +20,8 @@
 
 </script>
 
+    <input type="hidden" id="default_price" value="${(base.value)!}">
+
     <div class="head">
         <div class="avatar">
             <img src="${(weixinUser.headimgurl)!}" alt="">
@@ -27,7 +29,7 @@
         <p class="nickname">${(weixinUser.nickname)!}</p>
         <p class="money">奖励金额：<span>${(weixinUser.promoterMoney)!0}元</span></p>
         <p class="money_rule">
-            每当您拉取的新用户购买了课程，您就可以获得奖励金，奖励金满10元可以提现，每次提取10元。
+            每当您拉取的新用户购买了课程，您就可以获得奖励金，奖励金满${(base.value)!}元可以提现，每次提取不限额。
         </p>
         <a class="get_money" onclick="getMoney(${(weixinUser.promoterMoney)!});">提现</a>
 
@@ -158,11 +160,12 @@
          * @param money
          */
         function getMoney(money) {
-            if (money >= 10) {
-                // 提现十元钱
+            var defaultPrice = $("#default_price").val();
+            if (money >= defaultPrice) {
+                // 提现
                 alert('抱歉，暂时不支持提现！');
             } else {
-                alert('金额小于10元，不能提现哦！');
+                alert('金额小于' + defaultPrice +'元，不能提现哦！');
             }
         }
 

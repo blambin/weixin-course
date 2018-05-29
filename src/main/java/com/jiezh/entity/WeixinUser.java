@@ -57,6 +57,14 @@ public class WeixinUser extends GeneralBean {
      * 推广金额，待提现金额
      */
     private BigDecimal promoterMoney;
+    /**
+     * 推广员名称
+     */
+    private String promoterName;
+    /**
+     * 性别-name
+     */
+    private String sexName;
 
     public Integer getId() {
         return id;
@@ -133,5 +141,21 @@ public class WeixinUser extends GeneralBean {
 
     public void setPromoterMoney(BigDecimal promoterMoney) {
         this.promoterMoney = promoterMoney;
+    }
+
+    public String getPromoterName() {
+        return promoterName;
+    }
+
+    public void setPromoterName(String promoterName) {
+        this.promoterName = promoterName;
+    }
+
+    public String getSexName() {
+        return sexName;
+    }
+
+    public void setSexName(String sexName) {
+        this.sexName = sexName;
     }
 }

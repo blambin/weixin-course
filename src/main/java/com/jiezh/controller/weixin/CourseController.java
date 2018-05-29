@@ -141,7 +141,7 @@ public class CourseController extends WebAction {
 
         int result = courseService.delCourseById(id);
         if (result <= 0) {
-            return fail("闪促失败", null);
+            return fail("删除失败", null);
         }
 
         return success("删除成功", null);

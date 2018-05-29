@@ -12,6 +12,12 @@
     <link rel="stylesheet" href="${contextPath!}/res/weixin/js/weiketang/index.css?v=2.3.3"/>
 </head>
 <body>
+<script type="text/javascript">
+
+    // 用户授权登陆
+    getBaseInfo('${(weixinUser.id)}' ,'queryCourseList.do');
+
+</script>
 <div class="tabbar tabbar_wrap page_wrap">
     <div class="weui_tab">
         <link href="${contextPath!}/res/weixin/js/weiketang/search.css?v=2.3.3" rel="stylesheet" />
@@ -177,15 +183,10 @@
                         chtml += '			<div class="package__info">';
                         //chtml += '				<span>共<i class="blue-color">' + info.name + '</i>节课程</span>';
                         if(info.isFree == '1'){
-                            chtml += '				<span><i class="blue-color">免费</i></span>';
+                            chtml += '				<span><i class="">免费</i></span>';
                         }else{
-                            chtml += '				<span><i class="blue-color">收费</i></span>';
+                            chtml += '				<span><i class="">收费</i></span>';
                         }
-                        /*if(info.type>0){
-                            chtml += '				<div class="package__course-num"><i class="blue-color">免费</i></div>';
-                        }else{
-                            chtml += '				<div class="package__course-num"><i class="blue-color">收费</i></div>';
-                        }*/
                         chtml += '			</div>';
                         chtml += '		</div>';
                         chtml += '	</a>';

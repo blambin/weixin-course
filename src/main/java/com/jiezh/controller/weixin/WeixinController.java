@@ -41,6 +41,9 @@ public class WeixinController extends WebAction {
     @Autowired
     private UserPromoterLogService userPromoterLogService;
 
+    @Autowired
+    private BaseService baseService;
+
     /**
      * 首页
      */
@@ -176,7 +179,13 @@ public class WeixinController extends WebAction {
             userPromoterService.insertUserPromoter(weixinUser.getId(), user.getId());
 
             // 默认奖励金额
-            BigDecimal defaultMoney = new BigDecimal(Env.WEIXIN_PROMOTERMONEY);
+            Base base = baseService.queryBaseByType(Env.WEIXIN_COMMISSION_PROPORTION);
+            BigDecimal defaultMoney;
+            if (base != null) {
+                defaultMoney = new BigDecimal(base.getValue());
+            } else {
+                defaultMoney = new BigDecimal(1);
+            }
 
             BigDecimal promoterMoney = weixinUser.getPromoterMoney() == null ? defaultMoney : weixinUser.getPromoterMoney().add(defaultMoney);
             weixinUserService.modifyWeixinUserPromoterMoneyById(weixinUser.getId(), promoterMoney);
@@ -226,6 +235,9 @@ public class WeixinController extends WebAction {
 
         // 获取微信签名
         getWeixinMap();
+
+        Base base = baseService.queryBaseByType(Env.WEIXIN_DEFAULT_PRICE);
+        model.addAttribute("base", base);
 
         return "weixin/h5/h5_user";
     }

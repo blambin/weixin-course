@@ -164,15 +164,10 @@
                         chtml += '			<div class="package__info">';
                         //chtml += '				<span>共<i class="blue-color">' + info.name + '</i>节课程</span>';
                         if(info.isFree == '1'){
-                            chtml += '				<span><i class="blue-color">免费</i></span>';
+                            chtml += '				<span><i class="">免费</i></span>';
                         }else{
-                            chtml += '				<span><i class="blue-color">收费</i></span>';
+                            chtml += '				<span><i class="">收费</i></span>';
                         }
-                        /*if(info.type>0){
-                            chtml += '				<div class="package__course-num"><i class="blue-color">免费</i></div>';
-                        }else{
-                            chtml += '				<div class="package__course-num"><i class="blue-color">收费</i></div>';
-                        }*/
                         chtml += '			</div>';
                         chtml += '		</div>';
                         chtml += '	</a>';

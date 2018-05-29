@@ -12,6 +12,12 @@
     <link rel="stylesheet" href="${contextPath!}/res/weixin/js/weiketang/index.css?v=2.3.3"/>
 </head>
 <body>
+<script type="text/javascript">
+
+    // 用户授权登陆
+    getBaseInfo('${(weixinUser.id)}' ,'main.do');
+
+</script>
 <div class="tabbar tabbar_wrap page_wrap">
     <div class="weui_tab">
         <style>
@@ -66,8 +72,8 @@
                                 <p class="course_living">${info.name!}</p>
                             </div>
                             <p>
-                                <span class="fl red-color"><#if info.isFree == '1'>免费<#else>收费</#if></span>
-                                <span class="fr">价格：<i class="blue-color">${(info.price)!''}</i>元</span>
+                                <span class="fl "><#if info.isFree == '1'>免费<#else>收费</#if></span>
+                                <span class="fr">价格：<i class="red-color">${(info.price)!''}</i>元</span>
                             </p>
                             <p>
                                 <span class="fl">课程类型：</span>                        <span class="fr">
@@ -97,8 +103,8 @@
                                     <p class="course_living">${info.name!}</p>
                                 </div>
                                 <p>
-                                    <span class="fl red-color"><#if info.isFree == '1'>免费<#else>收费</#if></span>
-                                    <span class="fr">价格：<i class="blue-color">${(info.price)!''}</i>元</span>
+                                    <span class="fl "><#if info.isFree == '1'>免费<#else>收费</#if></span>
+                                    <span class="fr">价格：<i class="red-color">${(info.price)!''}</i>元</span>
                                 </p>
                                 <p>
                                     <span class="fl">课程类型：</span>                        <span class="fr">

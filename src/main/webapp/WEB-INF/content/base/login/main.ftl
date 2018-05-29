@@ -29,6 +29,13 @@
                         </div>
                         <div class="logo-element"></div>
                     </li>
+
+                    <li>
+                        <a href="#" id="group_2"><i class="fa fa-bars"></i><span class="nav-label">基础管理</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a class="J_menuItem" href="${contextPath}/weixin/base/queryBaseList.do" data-index="1">数据配置列表</a></li>
+                        </ul>
+                    </li>
                     
 	                <li>
 	                    <a href="#" id="group_1"><i class="fa fa-bars"></i><span class="nav-label">用户管理</span><span class="fa arrow"></span></a>
@@ -42,6 +49,13 @@
                         <ul class="nav nav-second-level">
                             <li><a class="J_menuItem" href="${contextPath}/weixin/course/addCourseHtml.do" data-index="1">新增课程</a></li>
                             <li><a class="J_menuItem" href="${contextPath}/weixin/course/queryCourseList.do" data-index="2">课程列表</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#" id="group_2"><i class="fa fa-bars"></i><span class="nav-label">微信用户管理</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a class="J_menuItem" href="${contextPath}/weixin/user/queryUserPromoterList.do" data-index="1">微信用户列表</a></li>
                         </ul>
                     </li>
 
