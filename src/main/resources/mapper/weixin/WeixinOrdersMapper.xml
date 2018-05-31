@@ -107,7 +107,7 @@
         select
         <include refid="Base_Column_List" />
         from t_weixin_orders wo
-        where wo.course_id = #{courseId,jdbcType=INTEGER} and wo.user_id = #{userId,jdbcType=INTEGER}
+        where wo.course_id = #{courseId,jdbcType=INTEGER} and wo.user_id = #{userId,jdbcType=INTEGER} and wo.status = #{status,jdbcType=VARCHAR}
     </select>
 
     <!-- 分页 -->

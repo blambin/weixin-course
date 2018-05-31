@@ -16,6 +16,8 @@
         <result column="create_user" property="createUser" jdbcType="INTEGER" />
         <result column="logo_url" property="logoUrl" jdbcType="VARCHAR" />
         <result column="type_location" property="typeLocation" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+        <result column="status_name" property="statusName" jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="Base_Column_List" >
@@ -121,6 +123,8 @@
 
     <select id="queryCoursePageByUserId" resultMap="BaseResultMap" parameterType="_int">
         SELECT
+        wo.status,
+        if(wo.`status`=3, '已付款', '代付款') as status_name,
         c.*
         FROM
         t_course c

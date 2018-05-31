@@ -27,8 +27,8 @@
                 <form role="form"  method="post" action="${contextPath}/login.do" >
                 <h4 class="no-margins">用户登录</h4>
                     <p class="m-t-md text-danger"  id="errorTip"></p>
-                    <input type="text" class="form-control uname" style="color:#000000" placeholder="用户名"  name="loginAccount" id="username" value="admin" required/>
-                    <input type="password" class="form-control pword m-b"  style="color:#000000" placeholder="密码"  name="password" value="123456" required/>
+                    <input type="text" class="form-control uname" style="color:#000000" placeholder="用户名"  name="loginAccount" id="username" value="" required/>
+                    <input type="password" class="form-control pword m-b"  style="color:#000000" placeholder="密码"  name="password" value="" required/>
                     <button type="submit" class="btn btn-success btn-block">登录</button>
                 </form>
             </div>

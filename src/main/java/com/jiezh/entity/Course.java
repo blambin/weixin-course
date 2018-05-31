@@ -69,6 +69,11 @@ public class Course extends GeneralBean {
      * 创建人
      */
     private int createUser;
+    /**
+     * 订单状态：1：预支付；2：支付中；3：已付款；4：完结
+     */
+    private String status;
+    private String statusName;
 
     public Integer getId() {
         return id;
@@ -165,5 +170,21 @@ public class Course extends GeneralBean {
 
     public void setTypeLocation(String typeLocation) {
         this.typeLocation = typeLocation;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 }

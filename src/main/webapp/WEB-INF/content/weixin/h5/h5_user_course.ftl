@@ -125,6 +125,7 @@
         <script type="text/javascript">
             var ajaxUrl   = BASE_PATH + "/weixin/h5/queryCourseListJsonByUserId.do?1=1";
             var lessonUrl = BASE_PATH + "/weixin/h5/queryCoursePlayer.do?1=1";
+            var lessonDetailUrl = BASE_PATH + "/weixin/h5/queryCourseDetail.do?1=1";
             var keywords = $.trim($("#searchInput").val());
             $(function () {
                 var i = 1; //设置当前页数，全局变量
@@ -150,7 +151,11 @@
                     var chtml = '';
                     $.each(result, function (j, info) {
                         chtml += '<li class="lesson_list">';
-                        chtml += '	<a href="' + lessonUrl + '&id=' + info.id + '" class="package">';
+                        if(info.status === '3'){
+                            chtml += '	<a href="' + lessonUrl + '&id=' + info.id + '" class="package">';
+                        }else{
+                            chtml += '	<a href="' + lessonDetailUrl + '&id=' + info.id + '" class="package">';
+                        }
                         chtml += '		<div class="package__cover-wrap">';
                         chtml += '			<div class="package__cover" style="background-image: url(' + BASE_IMG_PATH + info.logoUrl + ');">';
                         //chtml += '				<span class="package__cover-tips package__cover-tips--status">' + info.name + '人已学习</span>';
@@ -163,10 +168,14 @@
                         chtml += '			</div>';
                         chtml += '			<div class="package__info">';
                         //chtml += '				<span>共<i class="blue-color">' + info.name + '</i>节课程</span>';
-                        if(info.isFree == '1'){
+                        if(info.isFree === '1'){
                             chtml += '				<span><i class="">免费</i></span>';
                         }else{
-                            chtml += '				<span><i class="">收费</i></span>';
+                            if(info.status === '3'){
+                                chtml += '				<span><i class="">收费</i></span><span class="green-color">（已付款）</span>';
+                            }else{
+                                chtml += '				<span><i class="">收费</i></span><span class="red-color">（待付款）</span>';
+                            }
                         }
                         chtml += '			</div>';
                         chtml += '		</div>';

@@ -129,7 +129,7 @@ public class WeixinController extends WebAction {
         WeixinUser user = (WeixinUser) request.getSession().getAttribute("weixinUser");
         if (user != null) {
             // 如果用户已经买了这个课程，可以直接查看，不需要二次购买
-            WeixinOrders orders = weixinOrdersService.queryOrderByIdAndUserId(course.getId(), user.getId());
+            WeixinOrders orders = weixinOrdersService.queryOrderByIdAndUserId(course.getId(), user.getId(), Env.WEIXIN_ORDERS_STATUS_3);
             if (orders != null) {
                 return "weixin/h5/h5_course_player";
             }

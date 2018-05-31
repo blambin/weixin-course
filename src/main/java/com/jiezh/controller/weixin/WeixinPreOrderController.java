@@ -61,7 +61,7 @@ public class WeixinPreOrderController extends WebAction {
 
             // 当前微信授权登陆用户
             WeixinUser user = (WeixinUser) request.getSession().getAttribute("weixinUser");
-            WeixinOrders orders = weixinOrdersService.queryOrderByIdAndUserId(course.getId(), user.getId());
+            WeixinOrders orders = weixinOrdersService.queryOrderByIdAndUserId(course.getId(), user.getId(), Env.WEIXIN_ORDERS_STATUS_1);
 
             // 免费
             if (Env.WEIXIN_COURSE_IS_FREE_1.equals(course.getIsFree())) {

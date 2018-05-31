@@ -49,10 +49,11 @@ public class WeixinOrdersService {
         return 0;
     }
 
-    public WeixinOrders queryOrderByIdAndUserId(int courseId, Integer userId) {
+    public WeixinOrders queryOrderByIdAndUserId(int courseId, Integer userId, String status) {
         Map<String, String> map = new HashMap<>(2);
         map.put("courseId", String.valueOf(courseId));
         map.put("userId", String.valueOf(userId));
+        map.put("status", status);
         return weixinOrdersMapper.queryOrderByIdAndUserId(map);
     }
 
