@@ -4,7 +4,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jiezh.dao.weixin.UserPromoterLogMapper;
-import com.jiezh.entity.UserPromoter;
 import com.jiezh.entity.UserPromoterLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ public class UserPromoterLogService {
     @Autowired
     UserPromoterLogMapper userPromoterLogMapper;
 
-    public int insertUserPromoterLog(int promoterId, int userId, BigDecimal money) {
+    public int insertUserPromoterLog(Integer promoterId, Integer userId, BigDecimal money) {
         UserPromoterLog userPromoterLog = new UserPromoterLog();
         userPromoterLog.setPromoterId(promoterId);
         userPromoterLog.setUserId(userId);

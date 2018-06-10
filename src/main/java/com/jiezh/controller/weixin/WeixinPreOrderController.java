@@ -4,19 +4,24 @@ import com.jiezh.entity.Course;
 import com.jiezh.entity.WeixinOrders;
 import com.jiezh.entity.WeixinUser;
 import com.jiezh.pub.Env;
+import com.jiezh.pub.util.DateUtil;
 import com.jiezh.pub.web.WebAction;
 import com.jiezh.pub.weixin.sdk.WXPay;
 import com.jiezh.pub.weixin.sdk.WXPayConfigImpl;
 import com.jiezh.pub.weixin.sdk.WXPayConstants;
 import com.jiezh.pub.weixin.sdk.WXPayUtil;
 import com.jiezh.service.weixin.CourseService;
+import com.jiezh.service.weixin.UserPromoterLogService;
 import com.jiezh.service.weixin.WeixinOrdersService;
+import com.jiezh.service.weixin.WeixinUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +35,87 @@ public class WeixinPreOrderController extends WebAction {
 
     @Autowired
     CourseService courseService;
+
+    @Autowired
+    WeixinUserService weixinUserService;
+
+    @Autowired
+    UserPromoterLogService userPromoterLogService;
+
+    @RequestMapping("/sendRedPack")
+    @ResponseBody
+    public Map<String, Object> sendRedPack() {
+
+        try {
+
+            // 当前微信授权登陆用户
+            WeixinUser user = (WeixinUser) request.getSession().getAttribute("weixinUser");
+            // 提现金额
+            String defaultMoney = String.valueOf(user.getPromoterMoney());
+
+            // 微信支付对象
+            WXPay wxPay = new WXPay(WXPayConfigImpl.getInstance());
+
+            // 商户订单号（每个订单号必须唯一）组成：mch_id+yyyymmdd+10位一天内不能重复的数字
+            String yyyyMMddHHmmss = DateUtil.date2String(new Date(), "yyyyMMddHHmmss");
+            int str4 = (int) (Math.random() * 10000);
+            String mch_billno = WXPayConstants.MCH_ID + yyyyMMddHHmmss + str4;
+
+            System.out.println("mch_billno-" + mch_billno);
+
+            // 构造请求参数数据
+            HashMap<String, String> data = new HashMap<String, String>();
+            // 商户订单号（每个订单号必须唯一。取值范围：0~9，a~z，A~Z）接口根据商户订单号支持重入，如出现超时可再调用。
+            data.put("mch_billno", mch_billno);
+            // 商户名称：红包发送者名称
+            data.put("send_name", "港生投资");
+            // 接受红包的用户openid
+            data.put("re_openid", user.getOpenid());
+            // 付款金额，单位分，系统是元，所以需要*100
+            Double feeStr = Double.valueOf(defaultMoney) * 100;
+            data.put("total_amount", String.valueOf(feeStr.intValue()));
+            // 红包发放总人数
+            data.put("total_num", "1");
+            // 红包祝福语
+            data.put("wishing", "恭喜你，成功提现现金红包");
+            // 调用接口的机器Ip地址
+            data.put("client_ip", request.getRemoteAddr());
+            // 活动名称
+            data.put("act_name", "红包提现");
+            // 备注信息
+            data.put("remark", "发起" + defaultMoney + "元红包提现");
+
+            // 商户平台-现金红包-发放普通红包
+            Map<String, String> resultMap = wxPay.sendRedPack(data);
+
+            System.out.println("wxPay.sendRedPack:" + resultMap);
+
+            // 取得微信返回结果
+            if (Env.SUCCESS.equals(resultMap.get("return_code"))) {
+
+                // 需要扣减的提现金额
+                BigDecimal subMoney = new BigDecimal(defaultMoney);
+
+                // 扣减用户提现金额
+                BigDecimal promoterMoney = user.getPromoterMoney().subtract(subMoney);
+                weixinUserService.modifyWeixinUserPromoterMoneyById(user.getId(), promoterMoney);
+
+                // 插入金额变动记录
+                userPromoterLogService.insertUserPromoterLog(null, user.getId(), subMoney.multiply(new BigDecimal(-1)));
+
+                return success("ok", resultMap);
+
+            } else {
+                // 失败
+                return fail("error", null);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return fail("error", null);
+    }
 
     /**
      * 微信预支付

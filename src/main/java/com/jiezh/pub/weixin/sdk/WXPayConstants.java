@@ -51,6 +51,11 @@ public class WXPayConstants {
     public static final String FIELD_SIGN = "sign";
     public static final String FIELD_SIGN_TYPE = "sign_type";
 
+    /**
+     * 商户平台-现金红包-发放普通红包
+     */
+    public static final String MMPAYMKTTRANSFERS_SENDREDPACK_URL_SUFFIX = "/mmpaymkttransfers/sendredpack";
+
     public static final String MICROPAY_URL_SUFFIX     = "/pay/micropay";
     public static final String UNIFIEDORDER_URL_SUFFIX = "/pay/unifiedorder";
     public static final String ORDERQUERY_URL_SUFFIX   = "/pay/orderquery";

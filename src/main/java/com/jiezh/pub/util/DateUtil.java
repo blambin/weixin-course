@@ -1,5 +1,6 @@
 package com.jiezh.pub.util;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -393,6 +394,11 @@ public class DateUtil {
     public static void main(String[] args) {
         // checkMinutes("2011-03-28 15:12:11", 30);
 
-        System.out.println(/* getYear(new Date()) */ /* getMonth(new Date()) */getDate(new Date()));
+        // System.out.println(/* getYear(new Date()) */ /* getMonth(new Date()) */getDate(new Date()));
+        /*System.out.println(date2String(new Date(), "yyyyMMddHHmmss"));
+        System.out.println((int) (Math.random() * 10000));
+        System.out.println(System.currentTimeMillis());*/
+
+        System.out.println(new BigDecimal(100).multiply(new BigDecimal(-1)));
     }
 }

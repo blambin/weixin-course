@@ -335,6 +335,29 @@ public class WXPay {
         }
     }
 
+    /**
+     * 作用：商户平台-现金红包-发放普通红包<br>
+     * 场景：现金红包发放后会以公众号消息的形式触达用户
+     * @param reqData 向wxpay post的请求数据
+     * @return API返回数据
+     * @throws Exception
+     */
+    public Map<String, String> sendRedPack(Map<String, String> reqData) throws Exception {
+        return this.sendRedPack(reqData, config.getHttpConnectTimeoutMs(), this.config.getHttpReadTimeoutMs());
+    }
+
+    public Map<String, String> sendRedPack(Map<String, String> reqData,  int connectTimeoutMs, int readTimeoutMs) throws Exception {
+        String respXml = this.requestWithCert(WXPayConstants.MMPAYMKTTRANSFERS_SENDREDPACK_URL_SUFFIX, this.redPackRequestData(reqData), connectTimeoutMs, readTimeoutMs);
+        return this.processResponseXml(respXml);
+    }
+
+    public Map<String, String> redPackRequestData(Map<String, String> reqData) throws Exception {
+        reqData.put("wxappid", config.getAppID());
+        reqData.put("mch_id", config.getMchID());
+        reqData.put("nonce_str", WXPayUtil.generateUUID());
+        reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
+        return reqData;
+    }
 
 
     /**

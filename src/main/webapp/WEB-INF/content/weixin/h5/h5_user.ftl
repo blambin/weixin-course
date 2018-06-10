@@ -163,7 +163,23 @@
             var defaultPrice = $("#default_price").val();
             if (money >= defaultPrice) {
                 // 提现
-                alert('抱歉，暂时不支持提现！');
+                $.ajax({
+                    url: BASE_PATH + "/weixin/order/sendRedPack.do",
+                    data: null,
+                    async: false,
+                    type: "POST",
+                    success: function(data){
+                        if (data.result === 'success') {
+                            alert('提现成功！');
+                            setTimeout("location.reload()", 500);
+                        } else {
+                            alert('提现失败！');
+                        }
+                    },
+                    error: function (data) {
+                        alert('提现失败！' + data);
+                    }
+                });
             } else {
                 alert('金额小于' + defaultPrice +'元，不能提现哦！');
             }
