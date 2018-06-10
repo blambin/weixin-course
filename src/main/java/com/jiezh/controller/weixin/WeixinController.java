@@ -85,6 +85,12 @@ public class WeixinController extends WebAction {
 
         // 如果不是会员，跳转到会员支付页面
         if (!Env.WEIXIN_USER_IS_VIP_1.equals(user.getIsVip())) {
+            // 双重检查，购买会员可能有延迟，所以需要重新检查数据库
+            user = weixinUserService.queryWeixinUserById(user.getId());
+            if (Env.WEIXIN_USER_IS_VIP_1.equals(user.getIsVip())) {
+                // 如果是会员，则放入session
+                request.getSession().setAttribute("weixinUser", user);
+            }
             return "redirect:/weixin/h5/vipPay.do";
         }
 
