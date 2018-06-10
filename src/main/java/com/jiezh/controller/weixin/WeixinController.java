@@ -90,8 +90,9 @@ public class WeixinController extends WebAction {
             if (Env.WEIXIN_USER_IS_VIP_1.equals(user.getIsVip())) {
                 // 如果是会员，则放入session
                 request.getSession().setAttribute("weixinUser", user);
+            } else {
+                return "redirect:/weixin/h5/vipPay.do";
             }
-            return "redirect:/weixin/h5/vipPay.do";
         }
 
         // 焦点图
