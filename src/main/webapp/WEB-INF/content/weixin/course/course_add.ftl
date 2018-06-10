@@ -68,6 +68,7 @@
                                 <option value="1">视频</option>
                                 <option value="2">音频</option>
                                 <option value="3">文字</option>
+                                <option value="4">会员</option>
                             </select>
                         </div>
                     </div>
@@ -140,6 +141,7 @@
                     $("#contentDiv").hide();
                     break;
                 case "3":
+                case "4":
                     $("#contentDiv").show();
                     $("#urlDiv").hide();
                     break;

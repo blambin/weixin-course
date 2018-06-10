@@ -47,6 +47,24 @@ public class WeixinController extends WebAction {
     /**
      * 首页
      */
+    @RequestMapping("/vipPay")
+    public String vipPay() {
+
+        // 获取微信签名
+        getWeixinMap();
+
+        Base base = baseService.queryBaseByType(Env.WEIXIN_VIP_ID);
+        if (base != null) {
+            Course course = courseService.queryCourseById(Integer.valueOf(base.getValue()));
+            model.addAttribute("info", course);
+        }
+
+        return "weixin/h5/h5_vip_pay";
+    }
+
+    /**
+     * 首页
+     */
     @RequestMapping("/main")
     public String main() {
 
@@ -57,6 +75,17 @@ public class WeixinController extends WebAction {
         String promoter_id = request.getParameter("promoter_id");
         if (!StringUtil.isBlank(promoter_id)) {
             request.getSession().setAttribute("promoter_id", promoter_id);
+        }
+
+        // 当前微信授权登陆用户
+        WeixinUser user = (WeixinUser) request.getSession().getAttribute("weixinUser");
+        if (user == null) {
+            return "weixin/h5/h5_main";
+        }
+
+        // 如果不是会员，跳转到会员支付页面
+        if (!Env.WEIXIN_USER_IS_VIP_1.equals(user.getIsVip())) {
+            return "redirect:/weixin/h5/vipPay.do";
         }
 
         // 焦点图

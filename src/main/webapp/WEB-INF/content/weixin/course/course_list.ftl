@@ -29,6 +29,7 @@
 										<option value="1">视频</option>
                                         <option value="2">音频</option>
                                         <option value="3">文字</option>
+                                        <option value="4">会员</option>
 									</select>
                                 </div>
                                 <label class="col-sm-1 control-label label_padding">是否免费</label>
@@ -99,6 +100,7 @@
 									<#case '1'>视频<#break>
 									<#case '2'>音频<#break>
 									<#case '3'>文字<#break>
+									<#case '4'>会员<#break>
 								</#switch>
 							</td>
 						</tr>

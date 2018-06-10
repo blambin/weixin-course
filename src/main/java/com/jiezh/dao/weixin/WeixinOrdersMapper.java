@@ -24,4 +24,6 @@ public interface WeixinOrdersMapper {
     List<WeixinOrders> queryOrderListByUserId(int userId);
 
     List<WeixinOrders> queryFeeOrderListByUserId(int userId);
+
+    WeixinOrders queryWeixinOrdersByNo(String orderNo);
 }

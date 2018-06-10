@@ -90,6 +90,7 @@
                                 <#case '1'>视频<#break>
                                 <#case '2'>音频<#break>
                                 <#case '3'>文字<#break>
+                                <#case '4'>会员<#break>
                             </#switch>
                             </p>
                         </li>
@@ -99,7 +100,7 @@
                                 <p>${(info.introduce)!}</p>
                             </div>
                         </li>
-                        <#if info.type == '3'>
+                        <#if info.type == '3' || info.type == '4'>
                         <li>
                             <h2 class="chapter-title">课程内容</h2>
                             <div class="lesson-content" style="word-wrap: break-word;">

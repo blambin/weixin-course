@@ -1,12 +1,15 @@
 package com.jiezh.controller.weixin;
 
+import com.jiezh.entity.Course;
 import com.jiezh.entity.WeixinOrders;
 import com.jiezh.entity.WeixinUser;
 import com.jiezh.pub.Env;
 import com.jiezh.pub.web.WebAction;
 import com.jiezh.pub.weixin.sdk.WXPayConstants;
 import com.jiezh.pub.weixin.sdk.WXPayUtil;
+import com.jiezh.service.weixin.CourseService;
 import com.jiezh.service.weixin.WeixinOrdersService;
+import com.jiezh.service.weixin.WeixinUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,12 @@ public class WeixinPayController extends WebAction {
 
     @Autowired
     WeixinOrdersService weixinOrdersService;
+
+    @Autowired
+    WeixinUserService weixinUserService;
+
+    @Autowired
+    CourseService courseService;
 
     /**
      * 该链接是通过【统一下单API】中提交的参数notify_url设置，如果链接无法访问，商户将无法接收到微信通知。
@@ -99,6 +108,21 @@ public class WeixinPayController extends WebAction {
                     orders.setStatus(Env.WEIXIN_ORDERS_STATUS_3);
                     int updateResult = weixinOrdersService.modifyWeixinOrdersByNo(orders);
                     if (updateResult > 0) {
+
+                        // 如果是购买会员，应该修改用户信息
+                        orders = weixinOrdersService.queryWeixinOrdersByNo(orders.getOutTradeNo());
+                        if (orders != null) {
+                            Course course = courseService.queryCourseById(orders.getCourseId());
+                            if (Env.WEIXIN_COURSE_TYPE_4.equals(course.getType())) {
+                                // 如果是会员类型，修改用户会员标识
+                                WeixinUser weixinUser = weixinUserService.queryWeixinUserById(orders.getUserId());
+                                weixinUser.setIsVip(Env.WEIXIN_USER_IS_VIP_1);
+                                weixinUserService.modifyWeixinUserById(weixinUser);
+                                request.getSession().setAttribute("weixinUser", weixinUser);
+                            }
+
+                        }
+
                         WXPayUtil.getLogger().error("微信支付回调：修改订单支付状态成功");
                     } else {
                         WXPayUtil.getLogger().error("微信支付回调：修改订单支付状态失败");
@@ -112,15 +136,15 @@ public class WeixinPayController extends WebAction {
                         + "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+            WXPayUtil.getLogger().error("支付回调发布异常：" + e);
+        } finally {
             // 处理业务完毕
             BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
             out.write(resXml.getBytes());
             out.flush();
             out.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            WXPayUtil.getLogger().error("支付回调发布异常：" + e);
         }
 
         return resXml;

@@ -40,6 +40,13 @@ public class WeixinUserService {
         return weixinUserMapper.updateByPrimaryKeySelective(weixinUser);
     }
 
+    public int modifyWeixinUserById(WeixinUser weixinUser) {
+        if (weixinUser == null) {
+            return 0;
+        }
+        return weixinUserMapper.updateByPrimaryKeySelective(weixinUser);
+    }
+
     public int modifyWeixinUserPromoterMoneyById(int userId, BigDecimal promoterMoney) {
         if (userId == 0 || promoterMoney == null) {
             return 0;

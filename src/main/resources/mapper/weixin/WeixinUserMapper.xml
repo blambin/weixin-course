@@ -16,10 +16,11 @@
         <result column="promoter_money" property="promoterMoney" jdbcType="DECIMAL" />
         <result column="promoter_name" property="promoterName" jdbcType="VARCHAR" />
         <result column="sex_name" property="sexName" jdbcType="VARCHAR" />
+        <result column="is_vip" property="isVip" jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        id, openid, nickname, sex, province, city, country, headimgurl, privilege, unionid, promoter_id, promoter_money
+        id, openid, nickname, sex, province, city, country, headimgurl, privilege, unionid, promoter_id, promoter_money, is_vip
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="_int" >
@@ -79,6 +80,9 @@
             </if>
             <if test="promoterMoney != null" >
                 promoter_money = #{promoterMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="isVip != null" >
+                is_vip = #{isVip,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

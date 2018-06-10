@@ -150,5 +150,12 @@
         order by wo.id desc
     </select>
 
+    <!-- 根据编号查询订单信息 -->
+    <select id="queryWeixinOrdersByNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from t_weixin_orders wo
+        where wo.out_trade_no = #{outTradeNo,jdbcType=VARCHAR}
+    </select>
 
 </mapper>

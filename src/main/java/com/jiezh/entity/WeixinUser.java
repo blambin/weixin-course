@@ -65,6 +65,10 @@ public class WeixinUser extends GeneralBean {
      * 性别-name
      */
     private String sexName;
+    /**
+     * 是否会员：1是，2:否
+     */
+    private String isVip;
 
     public Integer getId() {
         return id;
@@ -157,5 +161,13 @@ public class WeixinUser extends GeneralBean {
 
     public void setSexName(String sexName) {
         this.sexName = sexName;
+    }
+
+    public String getIsVip() {
+        return isVip;
+    }
+
+    public void setIsVip(String isVip) {
+        this.isVip = isVip;
     }
 }

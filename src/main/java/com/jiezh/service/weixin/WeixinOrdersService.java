@@ -74,4 +74,8 @@ public class WeixinOrdersService {
     public List<WeixinOrders> queryFeeOrderListByUserId(int userId) {
         return weixinOrdersMapper.queryFeeOrderListByUserId(userId);
     }
+
+    public WeixinOrders queryWeixinOrdersByNo(String orderNo) {
+        return weixinOrdersMapper.queryWeixinOrdersByNo(orderNo);
+    }
 }
