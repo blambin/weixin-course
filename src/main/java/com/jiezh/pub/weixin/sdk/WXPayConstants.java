@@ -11,18 +11,22 @@ public class WXPayConstants {
 
 
     // appid
-    public static final String APP_ID = "wx7ee19649ab15e945";
+    public static final String APP_ID = "wxade7347e643dbb75"; // 港生投资
+    //public static final String APP_ID = "wx7ee19649ab15e945"; // 秦晋科技
     //public static  String APP_ID = "wx68d9985c78b0bdc8"; // 测试号
 
     // 商户号
-    public static final String MCH_ID = "1502656161";
+    public static final String MCH_ID = "1505769171"; // 港生投资
+    //public static final String MCH_ID = "1502656161"; // 秦晋科技
 
     // AppSecret
-    public static  String SECRET = "9ed2431c76be5e60fda286acde0dd447";
+    public static  String SECRET = "d35b1969075c9f29131d7652654aa150"; // 港生投资
+    //public static  String SECRET = "9ed2431c76be5e60fda286acde0dd447"; // 秦晋科技
     //public static  String SECRET = "8d9814e30f0646e5e280a9575a3a064d"; // 测试号
 
     // API密钥，在商户平台设置
-    public static final String API_KEY = "1502656161wx7ee19649ab15e9451502";
+    public static final String API_KEY = "1505769171wxade7347e643dbb751505"; // 港生投资
+    //public static final String API_KEY = "1502656161wx7ee19649ab15e9451502"; // 秦晋科技
 
     // 异步接收微信支付结果通知的回调地址，通知url必须为外网可访问的url，不能携带参数。
     public static String NOTIFY_URL =  "http://ketang.hbgstzgl.com/weixin/pay/wxnotify.do";

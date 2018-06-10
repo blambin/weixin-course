@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.jiezh.entity.User;
 import com.jiezh.entity.WeixinUser;
 import com.jiezh.pub.Env;
+import com.jiezh.pub.util.StringUtil;
 import com.jiezh.pub.web.WebAction;
 import com.jiezh.service.weixin.UserService;
 import com.jiezh.service.weixin.WeixinUserService;
@@ -75,6 +76,9 @@ public class UserController extends WebAction {
         for (WeixinUser user : pageList.getList()) {
             // 将设置的emoji格式转换为正常格式
             user.setNickname(EmojiParser.parseToUnicode(user.getNickname()));
+            if (!StringUtil.isBlank(user.getPromoterName())) {
+                user.setPromoterName(EmojiParser.parseToUnicode(user.getPromoterName()));
+            }
             weixinUserList.add(user);
         }
 

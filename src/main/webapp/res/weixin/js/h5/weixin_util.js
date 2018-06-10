@@ -50,7 +50,7 @@ function weixinConfig(appid, timestamp, noncestr, signature) {
 function getBaseInfo(userId, state){
     if (userId === '') {
         //1.获取到code
-        $appid="wx7ee19649ab15e945";
+        $appid="wxade7347e643dbb75";
         //$appid="wx68d9985c78b0bdc8";//这里的appid是假的演示用
         $redirect_uri=encodeURI("http://ketang.hbgstzgl.com/weixin/auth/authorize.do");//这里的地址需要http://
         //$redirect_uri=encodeURI("http://192.168.31.70:8888/weixin/auth/authorize.do");//这里的地址需要http://
