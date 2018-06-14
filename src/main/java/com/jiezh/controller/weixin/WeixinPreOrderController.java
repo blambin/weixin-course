@@ -103,7 +103,7 @@ public class WeixinPreOrderController extends WebAction {
             System.out.println("wxPay.sendRedPack:" + resultMap);
 
             // 取得微信返回结果
-            if (Env.SUCCESS.equals(resultMap.get("return_code"))) {
+            if (Env.SUCCESS.equals(resultMap.get("result_code"))) {
 
                 // 需要扣减的提现金额
                 BigDecimal subMoney = new BigDecimal(defaultMoney);
@@ -183,7 +183,7 @@ public class WeixinPreOrderController extends WebAction {
                     resultMap = unifiedOrder(out_trade_no, spbill_create_ip, body, wxPay, String.valueOf(course.getPrice()), user);
 
                     // 取得微信返回结果
-                    if (Env.SUCCESS.equals(resultMap.get("return_code"))) {
+                    if (Env.SUCCESS.equals(resultMap.get("result_code"))) {
 
                         chooseWXPayMap = chooseWXPayMap(out_trade_no, spbill_create_ip, resultMap, course, user, null);
 
