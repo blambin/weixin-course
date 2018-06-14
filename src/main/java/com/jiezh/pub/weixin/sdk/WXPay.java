@@ -1,6 +1,7 @@
 package com.jiezh.pub.weixin.sdk;
 
 import com.jiezh.pub.weixin.sdk.WXPayConstants.SignType;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -220,6 +221,31 @@ public class WXPay {
     }
 
     /**
+     * 处理 HTTPS API返回数据，转换成Map对象。return_code为SUCCESS时，验证签名。
+     * @param xmlStr API返回的XML格式数据
+     * @return Map类型数据
+     * @throws Exception
+     */
+    public Map<String, String> sendRedPackProcessResponseXml(String xmlStr) throws Exception {
+        String RETURN_CODE = "return_code";
+        String return_code;
+        Map<String, String> respData = WXPayUtil.xmlToMap(xmlStr);
+        if (respData.containsKey(RETURN_CODE)) {
+            return_code = respData.get(RETURN_CODE);
+        }
+        else {
+            throw new Exception(String.format("No `return_code` in XML: %s", xmlStr));
+        }
+
+        if (StringUtils.isNotBlank(return_code)) {
+            return respData;
+        }
+        else {
+            throw new Exception(String.format("return_code value %s is invalid in XML: %s", return_code, xmlStr));
+        }
+    }
+
+    /**
      * 作用：提交刷卡支付<br>
      * 场景：刷卡支付
      * @param reqData 向wxpay post的请求数据
@@ -348,7 +374,7 @@ public class WXPay {
 
     public Map<String, String> sendRedPack(Map<String, String> reqData,  int connectTimeoutMs, int readTimeoutMs) throws Exception {
         String respXml = this.requestWithCert(WXPayConstants.MMPAYMKTTRANSFERS_SENDREDPACK_URL_SUFFIX, this.redPackRequestData(reqData), connectTimeoutMs, readTimeoutMs);
-        return this.processResponseXml(respXml);
+        return this.sendRedPackProcessResponseXml(respXml);
     }
 
     public Map<String, String> redPackRequestData(Map<String, String> reqData) throws Exception {

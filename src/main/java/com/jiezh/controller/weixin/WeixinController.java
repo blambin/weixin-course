@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -58,6 +57,12 @@ public class WeixinController extends WebAction {
             Course course = courseService.queryCourseById(Integer.valueOf(base.getValue()));
             model.addAttribute("info", course);
         }
+
+        // 最新
+        Course typeLocation0 = new Course();
+        typeLocation0.setTypeLocation(Env.WEIXIN_COURSE_TYPE_LOCATION_0);
+        List<Course> list0 = courseService.queryCoursePage(1, Env.PAGE_SIZE, typeLocation0).getList();
+        model.addAttribute("list0", list0);
 
         return "weixin/h5/h5_vip_pay";
     }
@@ -189,48 +194,6 @@ public class WeixinController extends WebAction {
         Course course = courseService.queryCourseById(Integer.valueOf(id));
         model.addAttribute("info", course);
 
-        // 免费课程不算拉新
-        if (Env.WEIXIN_COURSE_IS_FREE_1.equals(course.getIsFree())) {
-            return view;
-        }
-
-        // 推广id，用于判断是否是某个用户的拉新用户
-        WeixinUser user = (WeixinUser) request.getSession().getAttribute("weixinUser");
-        if (null == user.getPromoterId()) {
-            return view;
-        }
-
-        if (user.getPromoterId().equals(user.getId())) {
-            return view;
-        }
-
-        List<WeixinOrders> ordersList = weixinOrdersService.queryFeeOrderListByUserId(user.getId());
-        if (ordersList != null && ordersList.size() == 1) {
-            // 拉新成功
-
-            // 并修改提现金额，为防止用户金额不存在，特查询一次数据库
-            WeixinUser weixinUser = weixinUserService.queryWeixinUserById(user.getPromoterId());
-
-            // 插入一条拉新记录
-            userPromoterService.insertUserPromoter(weixinUser.getId(), user.getId());
-
-            // 默认奖励金额
-            Base base = baseService.queryBaseByType(Env.WEIXIN_COMMISSION_PROPORTION);
-            BigDecimal defaultMoney;
-            if (base != null) {
-                defaultMoney = new BigDecimal(base.getValue());
-            } else {
-                defaultMoney = new BigDecimal(1);
-            }
-
-            BigDecimal promoterMoney = weixinUser.getPromoterMoney() == null ? defaultMoney : weixinUser.getPromoterMoney().add(defaultMoney);
-            weixinUserService.modifyWeixinUserPromoterMoneyById(weixinUser.getId(), promoterMoney);
-
-            // 插入金额变动记录
-            userPromoterLogService.insertUserPromoterLog(weixinUser.getId(), user.getId(), defaultMoney);
-
-        }
-
         return view;
     }
 
@@ -274,6 +237,14 @@ public class WeixinController extends WebAction {
 
         Base base = baseService.queryBaseByType(Env.WEIXIN_DEFAULT_PRICE);
         model.addAttribute("base", base);
+
+        // 个人信息，每次都去拉取数据库的最新数据
+        WeixinUser user = (WeixinUser) request.getSession().getAttribute("weixinUser");
+        WeixinUser weixinUser = weixinUserService.queryWeixinUserById(user.getId());
+        // 金额必须每次取最新的数据
+        user.setPromoterMoney(weixinUser.getPromoterMoney());
+        // 放入session
+        request.getSession().setAttribute("weixinUser", user);
 
         return "weixin/h5/h5_user";
     }

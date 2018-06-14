@@ -116,7 +116,11 @@
                     chtml += '<a href="#" class="weui_media_box weui_media_appmsg">';
                     chtml += '    <div class="weui_media_bd">';
                     chtml += '        <h4 class="weui_media_title" style="font-size: 13px">';
-                    chtml += '        红包收入<span class="green" style="float: right">+' + info.money + '元</span>';
+                    if (info.money > 0) {
+                        chtml += '        红包收入<span class="green" style="float: right">+' + info.money + '元</span>';
+                    } else {
+                        chtml += '        红包提现<span class="red" style="float: right">' + info.money + '元</span>';
+                    }
                     chtml += '        </h4>';
                     chtml += '        <p class="weui_media_desc">' + new Date(info.createTime).Format("yyyy-MM-dd HH:mm:ss") + '</p>';
                     chtml += '    </div>';
@@ -162,24 +166,29 @@
         function getMoney(money) {
             var defaultPrice = $("#default_price").val();
             if (money >= defaultPrice) {
-                // 提现
-                $.ajax({
-                    url: BASE_PATH + "/weixin/order/sendRedPack.do",
-                    data: null,
-                    async: false,
-                    type: "POST",
-                    success: function(data){
-                        if (data.result === 'success') {
-                            alert('提现成功！');
-                            setTimeout("location.reload()", 500);
-                        } else {
-                            alert('提现失败！');
+
+                if (confirm("是否确认提现？")) {
+                    // 提现
+                    $.ajax({
+                        url: BASE_PATH + "/weixin/order/sendRedPack.do",
+                        data: null,
+                        async: false,
+                        type: "POST",
+                        success: function(data){
+                            if (data.result === 'success') {
+                                alert('提现成功！');
+                                setTimeout("location.reload()", 500);
+                            } else {
+                                alert('提现失败！');
+                            }
+                        },
+                        error: function (data) {
+                            alert('提现失败！' + data);
                         }
-                    },
-                    error: function (data) {
-                        alert('提现失败！' + data);
-                    }
-                });
+                    });
+                } else {
+                    // 取消提现
+                }
             } else {
                 alert('金额小于' + defaultPrice +'元，不能提现哦！');
             }

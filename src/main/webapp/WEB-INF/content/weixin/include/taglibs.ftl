@@ -24,10 +24,10 @@
     wx.ready(function(){
         var shareData = {
             title: "首页 - 微课堂",
-            desc: "秦晋科技微课堂是以...",
+            desc: "信用卡提额办卡技巧解析",
             link: "http://ketang.hbgstzgl.com/weixin/h5/main.do?promoter_id=${(weixinUser.id)!}",
             //link: "http://192.168.31.70:8888/weixin/h5/main.do?promoter_id=${(weixinUser.id)!}",
-            imgUrl: "http://pic32.photophoto.cn/20140707/0006019627979225_b.jpg",
+            imgUrl: "http://ketang.hbgstzgl.com/uplimages/tmp/head.jpeg",
             trigger: function (res) {},
             complete: function (res) {},
             success: function (res) {},

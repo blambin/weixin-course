@@ -1,5 +1,6 @@
 package com.jiezh.controller.weixin;
 
+import com.jiezh.entity.Base;
 import com.jiezh.entity.Course;
 import com.jiezh.entity.WeixinOrders;
 import com.jiezh.entity.WeixinUser;
@@ -7,9 +8,7 @@ import com.jiezh.pub.Env;
 import com.jiezh.pub.web.WebAction;
 import com.jiezh.pub.weixin.sdk.WXPayConstants;
 import com.jiezh.pub.weixin.sdk.WXPayUtil;
-import com.jiezh.service.weixin.CourseService;
-import com.jiezh.service.weixin.WeixinOrdersService;
-import com.jiezh.service.weixin.WeixinUserService;
+import com.jiezh.service.weixin.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -20,6 +19,8 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -35,6 +36,15 @@ public class WeixinPayController extends WebAction {
 
     @Autowired
     CourseService courseService;
+
+    @Autowired
+    private UserPromoterService userPromoterService;
+
+    @Autowired
+    private UserPromoterLogService userPromoterLogService;
+
+    @Autowired
+    private BaseService baseService;
 
     /**
      * 该链接是通过【统一下单API】中提交的参数notify_url设置，如果链接无法访问，商户将无法接收到微信通知。
@@ -121,6 +131,9 @@ public class WeixinPayController extends WebAction {
                                 request.getSession().setAttribute("weixinUser", weixinUser);
                             }
 
+                            // 返佣金
+                            modifyUserPromoter(course);
+
                         }
 
                         WXPayUtil.getLogger().error("微信支付回调：修改订单支付状态成功");
@@ -148,6 +161,58 @@ public class WeixinPayController extends WebAction {
         }
 
         return resXml;
+    }
+
+    /**
+     * 设置修改分销体系，会员增加返佣金额
+     * @param course 商品
+     * @return true or false
+     */
+    private boolean modifyUserPromoter(Course course) {
+
+        // 免费课程不算拉新
+        if (Env.WEIXIN_COURSE_IS_FREE_1.equals(course.getIsFree())) {
+            return false;
+        }
+
+        // 推广id，用于判断是否是某个用户的拉新用户
+        WeixinUser user = (WeixinUser) request.getSession().getAttribute("weixinUser");
+        if (null == user.getPromoterId()) {
+            return false;
+        }
+
+        if (user.getPromoterId().equals(user.getId())) {
+            return false;
+        }
+
+        List<WeixinOrders> ordersList = weixinOrdersService.queryFeeOrderListByUserId(user.getId());
+        if (ordersList != null && ordersList.size() == 1) {
+            // 拉新成功
+
+            // 并修改提现金额，为防止用户金额不存在，特查询一次数据库
+            WeixinUser weixinUser = weixinUserService.queryWeixinUserById(user.getPromoterId());
+
+            // 插入一条拉新记录
+            userPromoterService.insertUserPromoter(weixinUser.getId(), user.getId());
+
+            // 默认奖励金额
+            Base base = baseService.queryBaseByType(Env.WEIXIN_COMMISSION_PROPORTION);
+            BigDecimal defaultMoney;
+            if (base != null) {
+                defaultMoney = new BigDecimal(base.getValue());
+            } else {
+                defaultMoney = new BigDecimal(1);
+            }
+
+            BigDecimal promoterMoney = weixinUser.getPromoterMoney() == null ? defaultMoney : weixinUser.getPromoterMoney().add(defaultMoney);
+            weixinUserService.modifyWeixinUserPromoterMoneyById(weixinUser.getId(), promoterMoney);
+
+            // 插入金额变动记录
+            userPromoterLogService.insertUserPromoterLog(weixinUser.getId(), user.getId(), defaultMoney);
+
+        }
+
+        return true;
     }
 
 }

@@ -180,7 +180,7 @@
                                     success: function (res) {
                                         // 支付成功后的回调函数
                                         alert('支付成功！');
-                                        setTimeout("location.href = '${contextPath!}/weixin/h5/queryCoursePlayer.do?id=${info.id!}'", 1000);
+                                        setTimeout("location.href = '${contextPath!}/weixin/h5/queryCoursePlayer.do?id=${info.id!}'", 500);
                                     },
                                     cancel: function (res) {
                                         // 支付取消
@@ -192,7 +192,7 @@
                                 });
                             } else {
                                 alert('购买成功！');
-                                setTimeout("location.href = '${contextPath!}/weixin/h5/queryCoursePlayer.do?id=${info.id!}'", 1000);
+                                setTimeout("location.href = '${contextPath!}/weixin/h5/queryCoursePlayer.do?id=${info.id!}'", 500);
                             }
 
                         } else {

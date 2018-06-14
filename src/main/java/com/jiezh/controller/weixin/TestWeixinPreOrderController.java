@@ -30,7 +30,7 @@ public class TestWeixinPreOrderController extends WebAction {
         // 终端IP
         String spbill_create_ip = request.getRemoteAddr();
         // 商品描述
-        String body = "秦晋科技-课程";
+        String body = "港生投资-课程";
         // 标价金额
         String total_fee = "1";
 

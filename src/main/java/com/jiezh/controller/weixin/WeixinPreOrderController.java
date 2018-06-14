@@ -84,6 +84,18 @@ public class WeixinPreOrderController extends WebAction {
             data.put("act_name", "红包提现");
             // 备注信息
             data.put("remark", "发起" + defaultMoney + "元红包提现");
+            /*
+             * 场景id：发放红包使用场景，红包金额大于200或者小于1元时必传
+               PRODUCT_1:商品促销
+               PRODUCT_2:抽奖
+               PRODUCT_3:虚拟物品兑奖
+               PRODUCT_4:企业内部福利
+               PRODUCT_5:渠道分润
+               PRODUCT_6:保险回馈
+               PRODUCT_7:彩票派奖
+               PRODUCT_8:税务刮奖
+             */
+            //data.put("scene_id", "PRODUCT_5");
 
             // 商户平台-现金红包-发放普通红包
             Map<String, String> resultMap = wxPay.sendRedPack(data);
@@ -129,7 +141,7 @@ public class WeixinPreOrderController extends WebAction {
         // 终端IP
         String spbill_create_ip = request.getRemoteAddr();
         // 商品描述
-        String body = "秦晋科技-课程";
+        String body = "港生投资-课程";
         // 微信统一下单接口请求地址
         Map<String, String> resultMap = null;
         // 支付二次生成签名
