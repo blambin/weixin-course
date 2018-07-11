@@ -29,7 +29,7 @@
         <p class="nickname">${(weixinUser.nickname)!}</p>
         <p class="money">奖励金额：<span>${(weixinUser.promoterMoney)!0}元</span></p>
         <p class="money_rule">
-            每当您拉取的新用户购买了课程，您就可以获得奖励金，奖励金满${(base.value)!}元可以提现，每次提取不限额。
+            当您拉取到新用户，并且其成为会员之后，您就可以获得大笔奖励金，奖励金满${(base.value)!}元可以提现，每次提现上限为200元，每日最多可提10次。
         </p>
         <a class="get_money" onclick="getMoney(${(weixinUser.promoterMoney)!});">提现</a>
 
@@ -167,7 +167,14 @@
             var defaultPrice = $("#default_price").val();
             if (money >= defaultPrice) {
 
-                if (confirm("是否确认提现？")) {
+                var msg = "是否确认提现？";
+
+                // 如果金额大于200，则按批提取，一次最高提现200元
+                if (money > 200) {
+                    msg = "您的奖励金额已经大于200元，每次提现上限为200元，" + msg;
+                }
+
+                if (confirm(msg)) {
                     // 提现
                     $.ajax({
                         url: BASE_PATH + "/weixin/order/sendRedPack.do",

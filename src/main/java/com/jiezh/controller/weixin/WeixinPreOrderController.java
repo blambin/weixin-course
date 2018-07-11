@@ -53,6 +53,12 @@ public class WeixinPreOrderController extends WebAction {
             // 提现金额
             String defaultMoney = String.valueOf(user.getPromoterMoney());
 
+            // 如果金额大于200，则按批提取，一次最高提现200元
+            BigDecimal money = new BigDecimal(200);
+            if (money.compareTo(user.getPromoterMoney()) < 0) {
+                defaultMoney = String.valueOf(money);
+            }
+
             // 微信支付对象
             WXPay wxPay = new WXPay(WXPayConfigImpl.getInstance());
 
@@ -113,7 +119,7 @@ public class WeixinPreOrderController extends WebAction {
                 weixinUserService.modifyWeixinUserPromoterMoneyById(user.getId(), promoterMoney);
 
                 // 插入金额变动记录
-                userPromoterLogService.insertUserPromoterLog(null, user.getId(), subMoney.multiply(new BigDecimal(-1)));
+                userPromoterLogService.insertUserPromoterLog(user.getId(), user.getId(), subMoney.multiply(new BigDecimal(-1)));
 
                 return success("ok", resultMap);
 
